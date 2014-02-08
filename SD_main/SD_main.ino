@@ -3,18 +3,21 @@
 //using the predefined functions
 #include <SD.h>
 #include <Wire.h>
+#include <Time.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BMP085_U.h>
 
 //instance of the sensor
 Adafruit_BMP085_Unified sensor = Adafruit_BMP085_Unified(10085);
-
+time_t t;
 //initialised variable to save pressure value
 double pressure = 0;
 
+File sensorData;
+
 void setup()
 {
-  SD_setup();
+  SD_setup(sensorData);
 
 
 
@@ -30,7 +33,9 @@ void setup()
 void loop() 
 {
   
-  
+  setTime(t);
+  timeStatus();
+  //instance of an event 
   sensors_event_t event;
   sensor.getEvent(&event);
   
@@ -48,7 +53,7 @@ void loop()
     Serial.println("Sensor error");
   }
   
-  SD_write(pressure);
+  SD_write(pressure, sensorData);
   
   //10 seconds delay between readings
   delay(5000);

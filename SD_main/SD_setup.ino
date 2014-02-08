@@ -1,5 +1,5 @@
 //function to initialise the SD card and file to write in
-void SD_setup(void)
+void SD_setup(File& sensorData)
 {
   //set the pin used for Card Select, can be changed if another pin
   const int cs_pin = 10;
@@ -15,12 +15,10 @@ void SD_setup(void)
   else
     Serial.println("SD card found!");
 
-  //create instance of File class to store file
-
-  
   //open the file onto which data is written to 'write' mode
   //if it does not exist, create it once
-  File sensorData = SD.open("data.csv", FILE_WRITE);
+  sensorData = SD.open("data.csv", FILE_WRITE);
+  
   //check if sensorData contains anything
   if(!sensorData)
     Serial.println("File not found");
