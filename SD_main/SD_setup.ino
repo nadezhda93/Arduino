@@ -9,7 +9,8 @@ void SD_setup(File& sensorData)
 
   //set pin 10 to output in case another pin is used for Card select
   pinMode(10, OUTPUT);
-
+  
+  //use LEDs to blink and detect faults while on battery
   if(!SD.begin())
     Serial.println("SD card not detected");
   else
