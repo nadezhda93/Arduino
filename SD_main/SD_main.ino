@@ -13,7 +13,7 @@ Adafruit_BMP085_Unified sensor = Adafruit_BMP085_Unified(10085);
 //create a variable of type
 //LiquidCrystal(rs,rw,enable,d0,d1,d2,d3,d4,d5,d6,d7)
 //omit lines that are not connected
-LiquidCrystal LCD(12, 11, 5, 4, 3, 2);
+LiquidCrystal LCD(9, 8, 5, 4, 3, 2);
 
 //initialised variable to save pressure value
 float pressure = 0;
@@ -23,10 +23,11 @@ File sensorData;
 
 void setup()
 {
+  LCD_setup(LCD);
   SD_setup(sensorData);
 
   //Sensor_setup();
-  LCD_setup(LCD);
+  
 
   //-----------
   // Initialise the sensor within Sensor_setup() function
@@ -61,7 +62,7 @@ void loop()
 
   //double pressure = Sensor_read(); <- returns value of pressure as a float
   LCD_display(pressure, LCD);
-  SD_write(pressure, sensorData);
+  //SD_write(pressure, sensorData);
 
   //5 seconds delay between readings in main because of loop
   delay(5000);

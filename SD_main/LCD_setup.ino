@@ -1,6 +1,6 @@
 /*  The circuit:
- * LCD RS pin to dig. pin 12
- * LCD En pin to dig. pin 11
+ * LCD RS pin to dig. pin 9
+ * LCD En pin to dig. pin 8
  * LCD D4 pin to dig. pin 5
  * LCD D5 pin to dig. pin 4
  * LCD D6 pin to dig. pin 3

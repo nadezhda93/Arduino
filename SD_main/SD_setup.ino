@@ -11,20 +11,33 @@ void SD_setup(File& sensorData)
   pinMode(10, OUTPUT);
   
   //use LEDs to blink and detect faults while on battery
-  if(!SD.begin())
+  if(!SD.begin()){
     Serial.println("SD card not detected");
-  else
+    LCD.setCursor(0,0);
+    LCD.print("SD card not found!");
+  }
+  else{
     Serial.println("SD card found!");
+    LCD.setCursor(0,0);
+    LCD.print("SD card found!");
+  }
 
   //open the file onto which data is written to 'write' mode
   //if it does not exist, create it once
   sensorData = SD.open("data.csv", FILE_WRITE);
   
   //check if sensorData contains anything
-  if(!sensorData)
+  if(!sensorData){
     Serial.println("File not found");
-  else
+    LCD.setCursor(0,1); //second row, first col
+    LCD.print("File not found");
+  }
+  else{
     Serial.println("File ready for writing");
-  
+    LCD.setCursor(0,1);
+    LCD.print("File ready!");
+  }
+  //wait for 5 s before displaying reading
+  delay(5000);
 }
 

@@ -6,7 +6,7 @@ void SD_write(float p, File& sensorData)
   //Serial.println(p);
   //Serial.println("^passed");
           
-  //write the value into the .csv file
+  //write the pressure reading into the .csv file
   sensorData.print(p);
   //sensorData.print(" hPa"); saving units causes difficulty when uploading to Excel
   sensorData.println(",");
