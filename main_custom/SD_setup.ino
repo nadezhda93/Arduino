@@ -6,11 +6,12 @@
  */
 
 //function to initialise the SD card and file to write in
-void SD_setup(File& sensorData, LiquidCrystal& LCD)
+int SD_setup(File& sensorData, LiquidCrystal& LCD)
 {
   //set the pin used for Card Select, can be changed if another pin
   const int cs_pin = 10;
-
+  int counter = 0;     //initialise data numbering
+  
   //set pin 10 to output in case another pin is used for Card select
   pinMode(cs_pin, OUTPUT);
   
@@ -33,6 +34,15 @@ void SD_setup(File& sensorData, LiquidCrystal& LCD)
   //check if sensorData contains anything
   LCD.setCursor(0, 1); //display on second row, first col
   
+  //set up headers on the .csv file
+  sensorData.print("Time elapsed (s)");  
+  sensorData.print(",");
+  sensorData.print("Pressure");
+  sensorData.print(",");
+  sensorData.print("Temperature");
+  sensorData.println(","); //separate with comma
+  sensorData.flush();      //save data to SD
+  
   if(!sensorData)
   {
     Serial.println("File not found");
@@ -44,12 +54,6 @@ void SD_setup(File& sensorData, LiquidCrystal& LCD)
     LCD.print("File ready!");
   }
   
-  //set up headers on the .csv file
-  sensorData.print("Pressure");
-  sensorData.print(",");
-  sensorData.print("Temperature");
-  sensorData.println(","); //separate with comma
-  sensorData.flush();      //save data to SD
-
+return counter;
 }
 

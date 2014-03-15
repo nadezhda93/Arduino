@@ -16,7 +16,8 @@ LiquidCrystal LCD1(9, 8, 5, 4, 3, 2);
 
 //initialised variable to save pressure value
 float pressure = 0;
-long temp = 0;
+float temp = 0;
+int counter;
 
 //instance of file in which data will be saved
 File sensorData;
@@ -29,19 +30,21 @@ void setup()
   Serial.begin(9600);
   
   //initialise all components
+  counter = SD_setup(sensorData, LCD1);
   LCD_setup(LCD1);
   Sensor_setup(sensor);
-  SD_setup(sensorData, LCD1);
+  
 }
 
 void loop() 
 {
-  temp     = Sensor_temp(sensor);      //returns value of temp as a float
+  temp     = Sensor_temp(sensor);       //returns value of temp as a float
   pressure = Sensor_read(sensor);       //returns value of pressure as a float
   
   LCD_display(pressure, temp, LCD1);    //send to LCD and print
-  SD_write(pressure, temp, sensorData);      //write value of pressure onto file sensorData
-
+  SD_write(pressure, temp, counter, sensorData); //write value of pressure onto file sensorData
+  
+  counter += 5;  //increment counter variable for next data set
   //change delay between every reading
   delay(5000); 
 }

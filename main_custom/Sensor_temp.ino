@@ -1,4 +1,4 @@
-long Sensor_temp(BMP085& sensor) //pass in sensor object of type BMP085
+float Sensor_temp(BMP085& sensor) //pass in sensor object of type BMP085
 {
   float temperature = 0;                  //initialise temp variable
   temperature = sensor.BMP085CalcTemp();  //get temperature and save to variable
