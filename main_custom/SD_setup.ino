@@ -37,9 +37,9 @@ int SD_setup(File& sensorData, LiquidCrystal& LCD)
   //set up headers on the .csv file
   sensorData.print("Time elapsed (s)");  
   sensorData.print(",");
-  sensorData.print("Pressure");
+  sensorData.print("Pressure (hPa)");
   sensorData.print(",");
-  sensorData.print("Temperature");
+  sensorData.print("Temperature (deg C)");
   sensorData.println(","); //separate with comma
   sensorData.flush();      //save data to SD
   
