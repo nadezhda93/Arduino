@@ -8,19 +8,19 @@ BMP085::BMP085()
 
 
 // Read 1 byte from the BMP085 at address
-char BMP085::BMP085Read8bit(unsigned char address)
+/*char BMP085::BMP085Read8bit(unsigned char address)
 {
-  unsigned char data;
+  	unsigned char data;
 
-  Wire.beginTransmission(ADDRESS);
-  Wire.write(address);
-  Wire.endTransmission();
+  	Wire.beginTransmission(ADDRESS);
+  	Wire.write(address);
+  	Wire.endTransmission();
 
-  Wire.requestFrom(ADDRESS, 1);
-  while(!Wire.available());
+  	Wire.requestFrom(ADDRESS, 1);
+  	while(!Wire.available());
 
   return Wire.read();
-}
+}*/
 
 
 // read 2 bytes from the sensor 16bits
@@ -158,7 +158,7 @@ float BMP085::BMP085CalcTemp()
 
   	true_temp = (_B5 + 8) >> 4; 
 
-  	return (true_temp*0.1);  
+  	return true_temp*0.1;  
 }
 
 
@@ -167,36 +167,36 @@ float BMP085::BMP085CalcTemp()
 // calibration values must be known
 // b5 is also required so bmp085GetTemperature(...) must be called first.
 // Value returned will be pressure in units of Pa.
-long BMP085::BMP085CalcPres()
+float BMP085::BMP085CalcPres()
 {
-  BMP085_UP();
-  long X1, X2, X3, B3, B6, pressure;
-  unsigned long B4, B7;
+  	BMP085_UP();
+  	long X1, X2, X3, B3, B6, pressure;
+  	unsigned long B4, B7;
   
-  B6 = _B5 - 4000;
+  	B6 = _B5 - 4000;
 
-  // Calculate B3
-  X1 = (_B2 * (B6 * B6)>>12)>>11;
-  X2 = (_AC2 * B6)>>11;
-  X3 = X1 + X2;
-  B3 = (((((long)_AC1)*4 + X3)<<OSS) + 2)>>2;
+  	// Calculate B3
+  	X1 = (_B2 * (B6 * B6)>>12)>>11;
+  	X2 = (_AC2 * B6)>>11;
+  	X3 = X1 + X2;
+  	B3 = (((((long)_AC1)*4 + X3)<<OSS) + 2)>>2;
   
-  // Calculate B4
-  X1 = (_AC3 * B6)>>13;
-  X2 = (B1 * ((B6 * B6)>>12))>>16;
-  X3 = ((X1 + X2) + 2)>>2;
-  B4 = (_AC4 * (unsigned long)(X3 + 32768))>>15;
+  	// Calculate B4
+  	X1 = (_AC3 * B6)>>13;
+  	X2 = (B1 * ((B6 * B6)>>12))>>16;
+  	X3 = ((X1 + X2) + 2)>>2;
+  	B4 = (_AC4 * (unsigned long)(X3 + 32768))>>15;
   
-  B7 = ((unsigned long)(_UP - B3) * (50000>>OSS));
-  if (B7 < 0x80000000)
-    pressure = (B7<<1)/B4;
-  else
-    pressure = (B7/B4)<<1;
+  	B7 = ((unsigned long)(_UP - B3) * (50000>>OSS));
+  	if (B7 < 0x80000000)
+     	pressure = (B7<<1)/B4;
+  	else
+    	pressure = (B7/B4)<<1;
     
-  X1 = (pressure >> 8) * (pressure >> 8);
-  X1 = (X1 * 3038)>>16;
-  X2 = (-7357 * pressure)>>16;
-  pressure += (X1 + X2 + 3791)>>4;
-  
-  return (pressure/100);
+  	X1 = (pressure >> 8) * (pressure >> 8);
+  	X1 = (X1 * 3038)>>16;
+  	X2 = (-7357 * pressure)>>16;
+  	pressure += (X1 + X2 + 3791)>>4;
+    
+  return (float)pressure * 0.01;
 }

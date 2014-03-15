@@ -1,24 +1,28 @@
+/*  The circuit:
+ * SD CS   pin to dig. pin 10
+ * SD MOSI pin to dig. pin 11
+ * SD MISO pin to dig. pin 12
+ * SD SCK  pin to dig. pin 13 
+ */
+
 //function to initialise the SD card and file to write in
-void SD_setup(File& sensorData)
+void SD_setup(File& sensorData, LiquidCrystal& LCD)
 {
   //set the pin used for Card Select, can be changed if another pin
   const int cs_pin = 10;
 
-  //open serial communications and set speed to 9600 bps
-  Serial.begin(9600);
-
   //set pin 10 to output in case another pin is used for Card select
-  pinMode(10, OUTPUT);
+  pinMode(cs_pin, OUTPUT);
   
-  //use LEDs to blink and detect faults while on battery
+  //check if SD card exists
+  LCD.setCursor(0,0); 
   if(!SD.begin()){
     Serial.println("SD card not detected");
-    LCD.setCursor(0,0);
     LCD.print("SD card not found!");
   }
-  else{
-    Serial.println("SD card found!");
-    LCD.setCursor(0,0);
+  else
+  {
+    Serial.println("SD card detected!");
     LCD.print("SD card found!");
   }
 
@@ -27,17 +31,25 @@ void SD_setup(File& sensorData)
   sensorData = SD.open("data.csv", FILE_WRITE);
   
   //check if sensorData contains anything
-  if(!sensorData){
+  LCD.setCursor(0, 1); //display on second row, first col
+  
+  if(!sensorData)
+  {
     Serial.println("File not found");
-    LCD.setCursor(0,1); //second row, first col
-    LCD.print("File not found");
+    LCD.print("File not found!");
   }
-  else{
+  else
+  {
     Serial.println("File ready for writing");
-    LCD.setCursor(0,1);
     LCD.print("File ready!");
   }
-  //wait for 5 s before displaying reading
-  delay(5000);
+  
+  //set up headers on the .csv file
+  sensorData.print("Pressure");
+  sensorData.print(",");
+  sensorData.print("Temperature");
+  sensorData.println(","); //separate with comma
+  sensorData.flush();      //save data to SD
+
 }
 

@@ -1,20 +1,19 @@
-/*float Sensor_read(BMP085& sensor)
+float Sensor_read(BMP085& sensor)
 {
-  float pressure = 0;      //initialise pressure variable
-  sensors_event_t event;   //create instance of the sensors_event_t class 
-  sensor.getEvent(&event); 
-
-  if(event.pressure)
+  float pressure = 0;                  //initialise pressure variable
+  pressure = sensor.BMP085CalcPres();  //get pressure and save to variable
+  
+  //test if value has been modified
+  if(pressure)
   {
     //Display atmospheric pressue in hPa
     Serial.print("Pressure:    ");
-    Serial.print(event.pressure);
+    Serial.print(pressure); //only prints long
     Serial.println(" hPa");
-    pressure = event.pressure;
   }
   else
     Serial.print("Cannot read pressure");
     
   return pressure;
-}*/
+}
 

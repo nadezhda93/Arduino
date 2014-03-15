@@ -13,7 +13,7 @@ public:
 	BMP085();				//constructor
 	void BMP085Calib();		//extract EEPROM variables
 	float BMP085CalcTemp();	//calc. temp in 0.1 deg C
-	long BMP085CalcPres();	//calc. pressure in Pa
+	float BMP085CalcPres();	//calc. pressure in Pa
 
 private:
 	static const int OSS = 0; 		//oversampling setting

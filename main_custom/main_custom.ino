@@ -12,39 +12,37 @@ BMP085 sensor;
 //create a variable of type
 //LiquidCrystal(rs,rw,enable,d0,d1,d2,d3,d4,d5,d6,d7)
 //omit lines that are not connected
-LiquidCrystal LCD(9, 8, 5, 4, 3, 2);
+LiquidCrystal LCD1(9, 8, 5, 4, 3, 2);
 
 //initialised variable to save pressure value
-float pressure, temp = 0;
+float pressure = 0;
+long temp = 0;
 
 //instance of file in which data will be saved
 File sensorData;
 
 void setup()
 {
+  //open serial comms to read values on screen
   Wire.begin();
+  //baud speed standard 
   Serial.begin(9600);
   
   //initialise all components
-  LCD_setup(LCD);
-  SD_setup(sensorData);
+  LCD_setup(LCD1);
   Sensor_setup(sensor);
+  SD_setup(sensorData, LCD1);
 }
 
 void loop() 
 {
-  pressure = sensor.BMP085CalcPres();        //returns value of pressure as a float
-  temp     = sensor.BMP085CalcTemp();
-  Serial.print("Temp: ");
-  Serial.println(temp);
+  temp     = Sensor_temp(sensor);      //returns value of temp as a float
+  pressure = Sensor_read(sensor);       //returns value of pressure as a float
   
-  Serial.print("Pressure: ");
-  Serial.println(pressure);
-  
-  LCD_display(pressure, temp, LCD);      //send to LCD and print
-  SD_write(pressure, sensorData);  //write value of pressure onto file sensorData
+  LCD_display(pressure, temp, LCD1);    //send to LCD and print
+  SD_write(pressure, temp, sensorData);      //write value of pressure onto file sensorData
 
-  //t ms seconds delay between readings in main because of loop
+  //change delay between every reading
   delay(5000); 
 }
 

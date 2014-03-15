@@ -8,7 +8,9 @@
  * LCD R/W pin to GND
  * 10K resistor:
  * ends to +5V and ground
- * wiper to LCD VO pin (pin 3)*/
+ * wiper to LCD VO pin (pin 3)
+ (optional)
+ */
 
 void LCD_setup(LiquidCrystal &LCD)
 {
