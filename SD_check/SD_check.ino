@@ -21,7 +21,6 @@
  */
  // include the SD library:
 #include <SD.h>
-#include <SPI.h>
 
 // set up variables using the SD utility library functions:
 Sd2Card card;
@@ -40,7 +39,6 @@ void setup()
   Serial.begin(9600);
    while (!Serial) {
     ; // wait for serial port to connect. Needed for Leonardo only
-    SPI.setClockDivider(SPI_CLOCK_DIV4);
   }
 
 

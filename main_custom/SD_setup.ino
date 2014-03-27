@@ -19,7 +19,7 @@ int SD_setup(File& sensorData, LiquidCrystal& LCD)
   LCD.setCursor(0,0); 
   if(!SD.begin()){
     Serial.println("SD card not detected");
-    LCD.print("SD card not found!");
+    LCD.print("SD not found!");
   }
   else
   {
@@ -45,15 +45,17 @@ int SD_setup(File& sensorData, LiquidCrystal& LCD)
   
   if(!sensorData)
   {
+    LCD.setCursor(0, 1);
     Serial.println("File not found");
     LCD.print("File not found!");
   }
   else
   {
+    LCD.setCursor(0, 1);
     Serial.println("File ready for writing");
     LCD.print("File ready!");
   }
-  
+  delay(3000);
 return counter;
 }
 

@@ -30,8 +30,8 @@ void setup()
   Serial.begin(9600);
   
   //initialise all components
-  counter = SD_setup(sensorData, LCD1);
   LCD_setup(LCD1);
+  counter = SD_setup(sensorData, LCD1);
   Sensor_setup(sensor);
   
 }
